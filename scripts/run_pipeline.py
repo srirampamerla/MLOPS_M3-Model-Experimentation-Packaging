@@ -1,26 +1,31 @@
 import os
 import subprocess
 
+# Step 1: Download data
+def download_data():
+    print("Downloading dataset...")
+    subprocess.run(['python', 'scripts/download_data.py'], check=True)
+
+# Step 2: Run Grid Search for hyperparameter tuning
+def grid_search():
+    print("Running GridSearch...")
+    subprocess.run(['python', 'scripts/grid_search.py'], check=True)
+
+# Step 3: Save the trained model (GridSearch)
+def save_model():
+    print("Saving the best model...")
+    subprocess.run(['python', 'scripts/save_model.py'], check=True)
+
+# Step 4: Run the Flask app to serve the model
+def run_flask_app():
+    print("Running Flask app...")
+    subprocess.run(['python', 'scripts/flask_app.py'], check=True)
+
 def main():
-    # Step 1: Check if the dataset exists
-    data_path = "data/iris.csv"
-    if not os.path.exists(data_path):
-        print("Dataset not found. Running download_data.py...")
-        subprocess.run(["python", "scripts/download_data.py"])
-    else:
-        print(f"Dataset already exists at {data_path}.")
-
-    # Step 2: Check if the model exists
-    model_path = "models/best_model.pkl"
-    if not os.path.exists(model_path):
-        print("Model not found. Running grid_search.py...")
-        subprocess.run(["python", "scripts/grid_search.py"])
-    else:
-        print(f"Model already exists at {model_path}.")
-
-    # Step 3: Start Flask app
-    print("Starting Flask application...")
-    subprocess.run(["python", "scripts/flask_app.py"])
+    download_data()
+    grid_search()
+    save_model()
+    run_flask_app()
 
 if __name__ == "__main__":
     main()

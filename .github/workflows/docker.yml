@@ -17,7 +17,7 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    # Step 2: Set up Python
+    # Step 2: Set up Python (for dependencies installation)
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -29,30 +29,27 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Step 4: Run pipeline script
-    - name: Execute Pipeline Script
-      run: |
-        python scripts/run_pipeline.py
-
-    # Step 5: Build Docker image
+    # Step 4: Build Docker image
     - name: Build Docker Image
       run: |
         docker build -t flask-app .
+
+    # Step 5: Run pipeline script to download data, run grid search, save model, and start Flask app
+    - name: Run Pipeline Script
+      run: |
+        python scripts/run_pipeline.py
 
     # Step 6: Run Docker container
     - name: Run Docker Container
       run: |
         docker run -d -p 5000:5000 --name flask-container flask-app
-      env:
-        FLASK_ENV: development
 
-    # Step 7: Test Flask API
+    # Step 7: Test Flask API (testing running inside GitHub Actions)
     - name: Test Flask API
       run: |
         sleep 10  # Allow container to initialize
         curl --fail http://localhost:5000/predict -X POST -H "Content-Type: application/json" \
           -d '{"feature1": 5.1, "feature2": 3.5, "feature3": 1.4, "feature4": 0.2}'
-      shell: bash
 
     # Step 8: Clean up Docker container
     - name: Clean up Docker Container
