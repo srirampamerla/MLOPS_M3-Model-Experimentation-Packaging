@@ -51,11 +51,16 @@ jobs:
       run: |
         docker logs flask-container
 
+    # Step 7: Wait for Flask app to initialize (increase the wait time)
+    - name: Wait for Flask App to Initialize
+      run: |
+        sleep 20  # Increased wait time to allow Flask app to fully initialize
+
     # Step 8: Test Flask API (testing running inside GitHub Actions)
     - name: Test Flask API
       run: |
         curl --fail http://localhost:5000/predict -X POST -H "Content-Type: application/json" \
-        -d '{"feature1": 5.1, "feature2": 3.5, "feature3": 1.4, "feature4": 0.2}'
+          -d '{"feature1": 5.1, "feature2": 3.5, "feature3": 1.4, "feature4": 0.2}'
 
     # Step 9: Clean up Docker container
     - name: Clean up Docker Container
