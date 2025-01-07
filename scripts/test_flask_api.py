@@ -3,7 +3,12 @@ import pandas as pd
 
 def test_flask_api():
     # Define test data for prediction
-    data = {'feature1': [5.1], 'feature2': [3.5], 'feature3': [1.4], 'feature4': [0.2]}
+    data = {
+        'sepal length (cm)': [5.1],
+        'sepal width (cm)': [3.5],
+        'petal length (cm)': [1.4],
+        'petal width (cm)': [0.2]
+    }
     input_data = pd.DataFrame(data)
 
     # Write the data to a CSV file
