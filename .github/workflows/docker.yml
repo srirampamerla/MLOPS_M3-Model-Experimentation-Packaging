@@ -48,27 +48,11 @@ jobs:
     - name: Wait for container to initialize
       run: |
         sleep 30  # Increase the sleep time to ensure Flask app is fully started
-
-    # Step 8: Test Flask API with Python Requests
-    - name: Install requests and Test Flask API with Python Requests
+        
+    # Step 8: Run the test script to interact with Flask API
+    - name: Run Flask API Test Script
       run: |
-        pip install requests
-        python -c "
-        import requests
-        import pandas as pd
-        url = 'http://localhost:5000/predict'
-    
-        #   Create the data as a DataFrame
-        data = {'feature1': [5.1], 'feature2': [3.5], 'feature3': [1.4], 'feature4': [0.2]}
-        input_data = pd.DataFrame(data)
-
-        # Convert DataFrame to dictionary for JSON format
-        response = requests.post(url, json=input_data.to_dict(orient='records'))
-    
-         print(response.status_code)
-        print(response.json())
-        "
-
+        python scripts/test_flask_api.py
 
     # Step 9: Check Docker container logs for errors
     - name: Check Docker Container Logs
