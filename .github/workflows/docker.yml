@@ -29,12 +29,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Step 4: Run pipeline script to download data, run grid search, save model, and start Flask app
-    - name: Run Pipeline Script
+    # Step 4: Run GridSearch Script Directly
+    - name: Run GridSearch Script
       run: |
-        python scripts/run_pipeline.py
-        # Log outputs for easier debugging
-        tail -n 50 /var/log/syslog
+        python scripts/grid_search.py
     
     # Step 5: Build Docker image
     - name: Build Docker Image
