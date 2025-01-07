@@ -54,7 +54,7 @@ jobs:
     # Step 7: Wait for Flask app to initialize (increase the wait time)
     - name: Wait for Flask App to Initialize
       run: |
-        sleep 50  # Increased wait time to allow Flask app to fully initialize
+        sleep 30  # Increased wait time to allow Flask app to fully initialize
 
     # Step 8: Test Flask API (testing running inside GitHub Actions)
     - name: Test Flask API
