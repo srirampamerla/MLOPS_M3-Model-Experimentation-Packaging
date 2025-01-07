@@ -47,13 +47,16 @@ jobs:
     # Step 7: Wait for the container to initialize
     - name: Wait for container to initialize
       run: |
-        sleep 10  # Adjust the sleep time if needed based on container initialization time
+        sleep 30  # Increase the sleep time to ensure Flask app is fully started
 
-    # Step 8: Check if Flask API is accessible
+    # Step 8: Test Flask API with retries
     - name: Test Flask API
       run: |
-        curl --fail http://localhost:5000/predict -X POST -H "Content-Type: application/json" \
-          -d '{"feature1": 5.1, "feature2": 3.5, "feature3": 1.4, "feature4": 0.2}'
+        until curl --fail http://localhost:5000/predict -X POST -H "Content-Type: application/json" \
+          -d '{"feature1": 5.1, "feature2": 3.5, "feature3": 1.4, "feature4": 0.2}'; do
+          echo "Waiting for Flask API to start...";
+          sleep 5; 
+        done
 
     # Step 9: Check Docker container logs for errors
     - name: Check Docker Container Logs
