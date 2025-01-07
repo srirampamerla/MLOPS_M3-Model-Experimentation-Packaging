@@ -45,14 +45,18 @@ jobs:
       run: |
         docker run -d -p 5000:5000 --name flask-container flask-app
 
-    # Step 7: Test Flask API (testing running inside GitHub Actions)
+    # Step 7: Check Docker container logs for errors
+    - name: Check Docker Container Logs
+      run: |
+        docker logs flask-container
+
+    # Step 8: Test Flask API (testing running inside GitHub Actions)
     - name: Test Flask API
       run: |
-        sleep 10  # Allow container to initialize
         curl --fail http://localhost:5000/predict -X POST -H "Content-Type: application/json" \
-          -d '{"feature1": 5.1, "feature2": 3.5, "feature3": 1.4, "feature4": 0.2}'
+        -d '{"feature1": 5.1, "feature2": 3.5, "feature3": 1.4, "feature4": 0.2}'
 
-    # Step 8: Clean up Docker container
+    # Step 9: Clean up Docker container
     - name: Clean up Docker Container
       run: |
         docker stop flask-container
