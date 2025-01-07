@@ -51,10 +51,17 @@ jobs:
       run: |
         docker logs flask-container
 
+<<<<<<< HEAD
     # # Step 7: Wait for Flask app to initialize (increase the wait time)
     # - name: Wait for Flask App to Initialize
     #   run: |
     #     sleep 50  # Increased wait time to allow Flask app to fully initialize
+=======
+    # Step 7: Wait for Flask app to initialize (increase the wait time)
+    - name: Wait for Flask App to Initialize
+      run: |
+        sleep 30  # Increased wait time to allow Flask app to fully initialize
+>>>>>>> 4b1670671b906d0620cfffc0d5f13c487e987794
 
     # # Step 8: Test Flask API (testing running inside GitHub Actions)
     # - name: Test Flask API
