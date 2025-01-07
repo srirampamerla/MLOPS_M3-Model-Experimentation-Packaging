@@ -12,16 +12,19 @@ model = joblib.load(MODEL_PATH)
 def home():
     return "Welcome to the Random Forest Classifier API!"
 
+import logging
+
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.get_json()
+    app.logger.info(f"Received data: {data}")  # Log the received data
     try:
         input_df = pd.DataFrame(data)
         predictions = model.predict(input_df)
         return jsonify({"predictions": predictions.tolist()})
     except Exception as e:
-        return jsonify({"error": f"Error occurred: {str(e)}", "input_data": data}), 400
-
+        app.logger.error(f"Error: {str(e)}")  # Log the error
+        return jsonify({"error": str(e)}), 400
 
         # Create a DataFrame for prediction
         input_df = pd.DataFrame([data])
