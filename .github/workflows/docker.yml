@@ -49,14 +49,17 @@ jobs:
       run: |
         sleep 30  # Increase the sleep time to ensure Flask app is fully started
 
-    # Step 8: Test Flask API with retries
-    - name: Test Flask API
+    # Step 8: Test Flask API with Python Requests
+    - name: Test Flask API with Python Requests
       run: |
-        until curl --fail http://localhost:5000/predict -X POST -H "Content-Type: application/json" \
-          -d '{"feature1": 5.1, "feature2": 3.5, "feature3": 1.4, "feature4": 0.2}'; do
-          echo "Waiting for Flask API to start...";
-          sleep 5; 
-        done
+        python -c "
+        import requests
+        url = 'http://localhost:5000/predict'
+        data = {'feature1': 5.1, 'feature2': 3.5, 'feature3': 1.4, 'feature4': 0.2}
+        response = requests.post(url, json=data)
+        print(response.status_code)
+        print(response.json())
+        "
 
     # Step 9: Check Docker container logs for errors
     - name: Check Docker Container Logs
