@@ -17,10 +17,10 @@ COPY . .
 RUN python scripts/download_data.py
 
 # Run the GridSearch and save the model
-RUN python scripts/grid_search.py
+RUN python scripts/gridsearch.py
 
 # Expose the port for Flask or other services (optional)
 EXPOSE 5000
 
 # Default command (can be overridden when running the container)
-CMD ["python", "scripts/grid_search.py"]
+CMD ["python", "scripts/gridsearch.py"]
