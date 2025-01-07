@@ -29,7 +29,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Step 4: Run GridSearch Script Directly
+    # Step 4: Run GridSearch Script Directly to train model
     - name: Run GridSearch Script
       run: |
         python scripts/gridsearch.py
@@ -39,19 +39,28 @@ jobs:
       run: |
         docker build -t flask-app .
 
-    #
-
     # Step 6: Run Docker container
     - name: Run Docker Container
       run: |
         docker run -d -p 5000:5000 --name flask-container flask-app
 
-    # Step 7: Check Docker container logs for errors
+    # Step 7: Wait for the container to initialize
+    - name: Wait for container to initialize
+      run: |
+        sleep 10  # Adjust the sleep time if needed based on container initialization time
+
+    # Step 8: Check if Flask API is accessible
+    - name: Test Flask API
+      run: |
+        curl --fail http://localhost:5000/predict -X POST -H "Content-Type: application/json" \
+          -d '{"feature1": 5.1, "feature2": 3.5, "feature3": 1.4, "feature4": 0.2}'
+
+    # Step 9: Check Docker container logs for errors
     - name: Check Docker Container Logs
       run: |
         docker logs flask-container
 
-    # Step 9: Clean up Docker container
+    # Step 10: Clean up Docker container
     - name: Clean up Docker Container
       run: |
         docker stop flask-container
