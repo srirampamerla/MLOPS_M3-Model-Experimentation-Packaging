@@ -4,10 +4,10 @@ import pandas as pd
 def test_flask_api():
     # Define test data for prediction
     data = {
-        'sepal length (cm)': [5.1],
-        'sepal width (cm)': [3.5],
-        'petal length (cm)': [1.4],
-        'petal width (cm)': [0.2]
+        'sepal length (cm)': [15.1],
+        'sepal width (cm)': [13.5],
+        'petal length (cm)': [11.4],
+        'petal width (cm)': [10.2]
     }
     input_data = pd.DataFrame(data)
 
